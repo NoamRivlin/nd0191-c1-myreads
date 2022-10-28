@@ -1,34 +1,38 @@
 /* eslint-disable no-unused-vars */
 import './App.css';
 import { useEffect, useState } from 'react';
-import { getAll } from './BooksAPI';
+// import { getAll } from './BooksAPI';
 import { Books } from './components/Books/Books';
 
+//if made the books in a different component it take 2 sec to load them in the searchpage...
+//error of process undefined is annoying but not critical....
+// i need to share the state of books and their value (their option value i guess)
+//
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
-  const [books, setBooks] = useState([]);
+  // const [books, setBooks] = useState([]);
   const [searchFilter, setSearchFilter] = useState(null);
-  const getBooks = async () => {
-    // export const getAll = () =>
-    // fetch(`${api}/books`, { headers })
-    //   .then((res) => res.json())
-    //   .then((data) => data.books);
+  // const getBooks = async () => {
+  // export const getAll = () =>
+  // fetch(`${api}/books`, { headers })
+  //   .then((res) => res.json())
+  //   .then((data) => data.books);
 
-    try {
-      // console.log(await getAll());
-      setBooks(await getAll());
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  //   try {
+  //     // console.log(await getAll());
+  //     setBooks(await getAll());
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
-  useEffect(() => {
-    getBooks();
-  }, []);
+  // useEffect(() => {
+  //   getBooks();
+  // }, []);
 
-  useEffect(() => {
-    console.log(books);
-  }, [books]);
+  // useEffect(() => {
+  //   console.log(books);
+  // }, [books]);
 
   return (
     <div className='app'>
