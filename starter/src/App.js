@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
 import './App.css';
 import { useEffect, useState } from 'react';
-// import { getAll } from './BooksAPI';
+import { getAll, search } from './BooksAPI';
 import { Books } from './components/Books/Books';
+import { Shelf } from './components/Shelf/Shelf';
 
 //if made the books in a different component it take 2 sec to load them in the searchpage...
 //error of process undefined is annoying but not critical....
@@ -10,29 +11,36 @@ import { Books } from './components/Books/Books';
 //
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
-  // const [books, setBooks] = useState([]);
-  const [searchFilter, setSearchFilter] = useState(null);
-  // const getBooks = async () => {
-  // export const getAll = () =>
-  // fetch(`${api}/books`, { headers })
-  //   .then((res) => res.json())
-  //   .then((data) => data.books);
+  const [searchFilter, setSearchFilter] = useState('');
+  const [books, setBooks] = useState([]);
+  const [searchedBooks, setSearchedBooks] = useState([]);
 
-  //   try {
-  //     // console.log(await getAll());
-  //     setBooks(await getAll());
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
+  const getBooks = async () => {
+    try {
+      setBooks(await getAll());
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-  // useEffect(() => {
-  //   getBooks();
-  // }, []);
+  const getSearchedBooks = async () => {
+    const booksArr = await search(searchFilter);
+    setSearchedBooks(booksArr);
+  };
 
-  // useEffect(() => {
-  //   console.log(books);
-  // }, [books]);
+  useEffect(() => {
+    getBooks();
+  }, []);
+
+  useEffect(() => {
+    console.log(books);
+  }, [books]);
+
+  useEffect(() => {
+    if (searchFilter) {
+      getSearchedBooks();
+    }
+  }, [searchFilter]);
 
   return (
     <div className='app'>
@@ -47,13 +55,16 @@ function App() {
             <div className='search-books-input-wrapper'>
               <input
                 type='text'
+                onChange={(e) => {
+                  setSearchFilter(e.target.value);
+                }}
                 placeholder='Search by title, author, or ISBN'
               />
             </div>
           </div>
           <div className='search-books-results'>
             <ol className='books-grid'>
-              <Books />
+              <Books books={searchedBooks} setBooks={setBooks} />
               {/* {books &&
                 books.map((book) => {
                   let {
@@ -105,7 +116,14 @@ function App() {
           </div>
           <div className='list-books-content'>
             <div>
-              <div className='bookshelf'>
+              <Shelf
+                title={'Currently Reading'}
+                books={books}
+                shelfFilter={'currentlyReading'}
+                setBooks={setBooks}
+              />
+              {/*----- insert component before shelf to replace it----------- */}
+              {/* <div className='bookshelf'>
                 <h2 className='bookshelf-title'>Currently Reading</h2>
                 <div className='bookshelf-books'>
                   <ol className='books-grid'>
@@ -169,8 +187,16 @@ function App() {
                     </li>
                   </ol>
                 </div>
-              </div>
-              <div className='bookshelf'>
+              </div> */}
+              {/* -------end of curerently reading shelf----- */}
+
+              <Shelf
+                title={'Want To Read'}
+                books={books}
+                shelfFilter={'wantToRead'}
+                setBooks={setBooks}
+              />
+              {/* <div className='bookshelf'>
                 <h2 className='bookshelf-title'>Want to Read</h2>
                 <div className='bookshelf-books'>
                   <ol className='books-grid'>
@@ -236,8 +262,16 @@ function App() {
                     </li>
                   </ol>
                 </div>
-              </div>
-              <div className='bookshelf'>
+              </div> */}
+
+              <Shelf
+                title={'Read'}
+                books={books}
+                shelfFilter={'read'}
+                setBooks={setBooks}
+              />
+
+              {/* <div className='bookshelf'>
                 <h2 className='bookshelf-title'>Read</h2>
                 <div className='bookshelf-books'>
                   <ol className='books-grid'>
@@ -334,7 +368,7 @@ function App() {
                     </li>
                   </ol>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className='open-search'>

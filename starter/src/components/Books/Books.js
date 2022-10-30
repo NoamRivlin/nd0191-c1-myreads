@@ -3,23 +3,23 @@ import { useEffect, useState } from 'react';
 import { getAll } from '../../BooksAPI';
 import { Book } from './Book';
 
-export const Books = ({}) => {
-  const [books, setBooks] = useState([]);
-  const getBooks = async () => {
-    try {
-      setBooks(await getAll());
-    } catch (err) {
-      console.error(err);
-    }
-  };
+export const Books = ({ books, setBooks }) => {
+  //   const [books, setBooks] = useState([]);
+  //   const getBooks = async () => {
+  //     try {
+  //       setBooks(await getAll());
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
 
-  useEffect(() => {
-    getBooks();
-  }, []);
+  //   useEffect(() => {
+  //     getBooks();
+  //   }, []);
 
-  useEffect(() => {
-    console.log(books);
-  }, [books]);
+  //   useEffect(() => {
+  //     console.log(books);
+  //   }, [books]);
 
   return (
     // not sure if to add the <ol> to this...lets just return Books in here
@@ -27,7 +27,9 @@ export const Books = ({}) => {
       {books &&
         books.map((book) => {
           let { title, id, authors, subtitle, shelf, imageLinks } = book;
-          imageLinks = imageLinks.smallThumbnail;
+          imageLinks =
+            imageLinks?.smallThumbnail ||
+            'https://after12thwhat.com/wp-content/uploads/2016/12/no_img.jpg';
 
           return (
             <Book
@@ -36,6 +38,9 @@ export const Books = ({}) => {
               imageLinks={imageLinks}
               title={title}
               authors={authors}
+              shelf={shelf}
+              book={book}
+              setBooks={setBooks}
             />
             // <div className='book' key={id}>
             //   <div className='book-top'>
