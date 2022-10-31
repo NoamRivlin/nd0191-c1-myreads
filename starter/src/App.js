@@ -8,7 +8,7 @@ import { Shelf } from './components/Shelf/Shelf';
 //if made the books in a different component it take 2 sec to load them in the searchpage...
 //error of process undefined is annoying but not critical....
 // i need to share the state of books and their value (their option value i guess)
-//
+//when an if there time add a isLoading when switching book's shelf
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
   const [searchFilter, setSearchFilter] = useState('');
@@ -24,9 +24,27 @@ function App() {
   };
 
   const getSearchedBooks = async () => {
-    const booksArr = await search(searchFilter);
-    setSearchedBooks(booksArr);
+    const searchedBooksArr = await search(searchFilter);
+    console.log(searchedBooksArr);
+    if (searchedBooksArr.error === 'empty query') {
+      setSearchedBooks([]);
+      return;
+    }
+    setSearchedBooks(searchedBooksArr);
+    // if (!searchedBooksArr.error === 'empty query') {
+    //   console.log('b');
+    //   setSearchedBooks(searchedBooksArr);
+    //   return;
+    // }
+    // setSearchedBooks([]);
+    // return;
   };
+
+  // const clearSearchedBooks = async () => {
+  //   setSearchFilter('');
+  //   setSearchedBooks([]);
+  //   console.log('a');
+  // };
 
   useEffect(() => {
     getBooks();
@@ -42,16 +60,22 @@ function App() {
     }
   }, [searchFilter]);
 
+  useEffect(() => {
+    if (!showSearchPage) {
+      // clearSearchedBooks();
+    }
+  }, [showSearchPage]);
+
   return (
     <div className='app'>
       {showSearchPage ? (
         <div className='search-books'>
           <div className='search-books-bar'>
-            <a
+            <button
               className='close-search'
               onClick={() => setShowSearchpage(!showSearchPage)}>
               Close
-            </a>
+            </button>
             <div className='search-books-input-wrapper'>
               <input
                 type='text'
@@ -372,7 +396,9 @@ function App() {
             </div>
           </div>
           <div className='open-search'>
-            <a onClick={() => setShowSearchpage(!showSearchPage)}>Add a book</a>
+            <button onClick={() => setShowSearchpage(!showSearchPage)}>
+              Add A Book
+            </button>
           </div>
         </div>
       )}
