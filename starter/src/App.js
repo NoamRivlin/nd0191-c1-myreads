@@ -26,21 +26,12 @@ function App() {
   const getSearchedBooks = async () => {
     const searchedBooksArr = await search(searchFilter);
     console.log(searchedBooksArr);
-    if (searchFilter.length === 0 || !showSearchPage) {
-      console.log('clear');
-      clearSearchedBooks();
-      return;
-    }
     if (searchedBooksArr.error) {
+      console.log('error found ' + searchedBooksArr.error);
       setSearchedBooks([]);
       return;
     }
     setSearchedBooks(searchedBooksArr);
-  };
-
-  const clearSearchedBooks = async () => {
-    setSearchFilter('');
-    setSearchedBooks([]);
   };
 
   useEffect(() => {
@@ -53,17 +44,25 @@ function App() {
 
   useEffect(() => {
     if (searchFilter) {
+      console.log(searchFilter);
       getSearchedBooks();
+      return;
+    }
+    if (!searchFilter || !showSearchPage) {
+      console.log('either search input is falsy or out of searchpage');
+      // clearSearchedBooks();
+      setSearchedBooks([]);
       return;
     }
   }, [searchFilter]);
 
-  // useEffect(() => {
-  //   if (!showSearchPage) {
-  //     setSearchFilter('')
-  //     // clearSearchedBooks();
-  //   }
-  // }, [showSearchPage]);
+  useEffect(() => {
+    if (!showSearchPage) {
+      setSearchedBooks([]);
+      setSearchFilter('');
+      // clearSearchedBooks();
+    }
+  }, [showSearchPage]);
 
   return (
     <div className='app'>
