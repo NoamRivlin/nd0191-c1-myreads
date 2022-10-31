@@ -26,25 +26,22 @@ function App() {
   const getSearchedBooks = async () => {
     const searchedBooksArr = await search(searchFilter);
     console.log(searchedBooksArr);
-    if (searchedBooksArr.error === 'empty query') {
+    if (searchFilter.length === 0 || !showSearchPage) {
+      console.log('clear');
+      clearSearchedBooks();
+      return;
+    }
+    if (searchedBooksArr.error) {
       setSearchedBooks([]);
       return;
     }
     setSearchedBooks(searchedBooksArr);
-    // if (!searchedBooksArr.error === 'empty query') {
-    //   console.log('b');
-    //   setSearchedBooks(searchedBooksArr);
-    //   return;
-    // }
-    // setSearchedBooks([]);
-    // return;
   };
 
-  // const clearSearchedBooks = async () => {
-  //   setSearchFilter('');
-  //   setSearchedBooks([]);
-  //   console.log('a');
-  // };
+  const clearSearchedBooks = async () => {
+    setSearchFilter('');
+    setSearchedBooks([]);
+  };
 
   useEffect(() => {
     getBooks();
@@ -57,14 +54,16 @@ function App() {
   useEffect(() => {
     if (searchFilter) {
       getSearchedBooks();
+      return;
     }
   }, [searchFilter]);
 
-  useEffect(() => {
-    if (!showSearchPage) {
-      // clearSearchedBooks();
-    }
-  }, [showSearchPage]);
+  // useEffect(() => {
+  //   if (!showSearchPage) {
+  //     setSearchFilter('')
+  //     // clearSearchedBooks();
+  //   }
+  // }, [showSearchPage]);
 
   return (
     <div className='app'>
