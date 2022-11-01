@@ -44,13 +44,12 @@ function App() {
 
   useEffect(() => {
     if (searchFilter) {
-      console.log(searchFilter);
       getSearchedBooks();
       return;
     }
     if (!searchFilter || !showSearchPage) {
       console.log('either search input is falsy or out of searchpage');
-      // clearSearchedBooks();
+
       setSearchedBooks([]);
       return;
     }
@@ -60,7 +59,6 @@ function App() {
     if (!showSearchPage) {
       setSearchedBooks([]);
       setSearchFilter('');
-      // clearSearchedBooks();
     }
   }, [showSearchPage]);
 
@@ -87,7 +85,7 @@ function App() {
           <div className='search-books-results'>
             <ol className='books-grid'>
               <Books books={searchedBooks} setBooks={setBooks} />
-              {/* {books &&
+              {/* {books && 
                 books.map((book) => {
                   let {
                     title,
