@@ -58,17 +58,6 @@ body,
 }
 
 .open-search button {
-  /* margin: 30px;
-  font-size: large;
-  height: 60px;
-  width: 160px;
-  border-radius: 10px;
-  box-shadow: 1px 1px 0px 2px rgba (0, 0, 0, 0.3);
-  background: rgb(141, 217, 252);
-  cursor: pointer;
-  background: green;
-  color: white; */
-
   display: block;
   border: none;
   width: 50px;
