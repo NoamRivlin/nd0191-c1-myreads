@@ -5,7 +5,6 @@ export const Books = ({ books, setBooks }) => {
 
 
   return (
-    // not sure if to add the <ol> to this...lets just return Books in here
     <>
       {books &&
         books.map((book) => {
@@ -27,7 +26,6 @@ export const Books = ({ books, setBooks }) => {
             />
           );
         })}
-      {/* add a no books found */}
     </>
   );
 };

@@ -11,9 +11,7 @@ export const Book = ({
   setBooks,
 }) => {
 
-
   const [shelfValue, setShelfValue] = useState(shelf || 'none');
-
 
   return (
     <li>
@@ -29,19 +27,12 @@ export const Book = ({
             }}></div>
           <div className='book-shelf-changer'>
             <select
-              // value={shelf || 'none'}
               value={shelfValue}
               onChange={(e) => {
-                console.log(e.target.value);
                 setShelfValue(e.target.value)
                 update(book, e.target.value).then((updatedShelvesObject) => {
-                  // console.log(updatedShelvesObject)
-                  getAll().then((books) => {
-                    setBooks(books)
-                    // setSearchedBooks(books)
-                  })
-                }
-                );
+                  getAll().then((books) => setBooks(books))
+                });
               }}>
               <option disabled>Move to...</option>
               <option value='currentlyReading'>Currently Reading</option>

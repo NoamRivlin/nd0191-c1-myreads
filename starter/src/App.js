@@ -5,18 +5,11 @@ import { getAll, search } from './BooksAPI';
 import { Books } from './components/Books/Books';
 import { Shelf } from './components/Shelf/Shelf';
 
-//if made the books in a different component it take 2 sec to load them in the searchpage...
-//error of process undefined is annoying but not critical....
-// i need to share the state of books and their value (their option value i guess)
-//when an if there time add a isLoading when switching book's shelf
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
   const [searchFilter, setSearchFilter] = useState('');
   const [books, setBooks] = useState([]);
   const [searchedBooks, setSearchedBooks] = useState([]);
-  // make a state that holds the value of the select in 
-  // the searched books so if theres a change in the value
-  // it will render and show it right away
 
 
   const getBooks = async () => {
@@ -46,9 +39,6 @@ function App() {
     getBooks();
   }, []);
 
-  useEffect(() => {
-    console.log(books);
-  }, [books]);
 
   useEffect(() => {
     if (searchFilter) {
