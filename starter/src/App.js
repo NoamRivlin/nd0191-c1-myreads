@@ -18,6 +18,7 @@ function App() {
   const getBooks = async () => {
     try {
       setBooks(await getAll());
+
     } catch (err) {
       console.error(err);
     }
@@ -31,7 +32,14 @@ function App() {
       setSearchedBooks([]);
       return;
     }
-    setSearchedBooks(searchedBooksArr);
+
+    setSearchedBooks(searchedBooksArr.map(searchedBook => {
+      const bookInLibrary = books.find(book => book.id === searchedBook.id)
+      console.log(bookInLibrary);
+      if (bookInLibrary) searchedBook.shelf = bookInLibrary.shelf;
+
+      return searchedBook
+    }));
   };
 
   useEffect(() => {
