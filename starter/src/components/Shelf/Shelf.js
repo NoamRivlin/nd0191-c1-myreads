@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Books } from '../Books/Books';
 
 export const Shelf = ({ title, books, shelfFilter, setBooks }) => {

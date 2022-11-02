@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { getAll, update } from '../../BooksAPI';
 
 export const Book = ({
@@ -9,11 +10,10 @@ export const Book = ({
   book,
   setBooks,
 }) => {
-  //   const { id, imageLinks, title, authors } = book;
-  //need some useState useEffect to hold the value of the select
-  //using that to move between shelves
-  //that means i should set the states in the app because it should reflect in both
-  //main and search
+
+
+  const [shelfValue, setShelfValue] = useState(shelf || 'none');
+
 
   return (
     <li>
@@ -29,11 +29,18 @@ export const Book = ({
             }}></div>
           <div className='book-shelf-changer'>
             <select
-              value={shelf || 'none'}
+              // value={shelf || 'none'}
+              value={shelfValue}
               onChange={(e) => {
                 console.log(e.target.value);
-                update(book, e.target.value).then((json) =>
-                  getAll().then((books) => setBooks(books))
+                setShelfValue(e.target.value)
+                update(book, e.target.value).then((updatedShelvesObject) => {
+                  // console.log(updatedShelvesObject)
+                  getAll().then((books) => {
+                    setBooks(books)
+                    // setSearchedBooks(books)
+                  })
+                }
                 );
               }}>
               <option disabled>Move to...</option>
